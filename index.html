@@ -2,804 +2,880 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta charset="UTF-8">
+<meta name="viewport"
+ content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b1024">
+<meta name="description"
+ content="COSMOS, actualidad y exploración del universo">
+<title>COSMOS · Tu universo</title>
 
-  <title>COSMOS · Tu universo</title>
-  <meta name="description"
-        content="Tu observatorio personal del universo">
-  <meta name="theme-color" content="#0b1024">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" href="./icon.svg" type="image/svg+xml">
 
-  <link rel="manifest" href="./manifest.webmanifest">
-  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+<style>
+:root {
+  --bg:#0b1024;
+  --card:#19213d;
+  --border:#303b5d;
+  --accent:#c5b4ff;
+  --text:#f8f7ff;
+  --muted:#aeb9d3;
+}
 
-  <style>
-    :root {
-      --bg: #0b1024;
-      --panel: #181f38;
-      --panel2: #222b49;
-      --text: #f6f4ff;
-      --muted: #aab6d2;
-      --accent: #bea9ff;
-      --pink: #ff9ec9;
-    }
+* {box-sizing:border-box}
 
-    * { box-sizing: border-box; }
+body {
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:system-ui,-apple-system,"Segoe UI",sans-serif;
+}
 
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      font-family: system-ui, -apple-system,
-                   "Segoe UI", sans-serif;
-    }
+header {
+  position:sticky;
+  top:0;
+  z-index:5;
+  padding:16px;
+  background:#101730;
+  border-bottom:1px solid var(--border);
+}
 
-    button, input { font: inherit; }
+header .inside {
+  max-width:1000px;
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+}
 
-    button { cursor: pointer; }
+h1 {
+  font-size:25px;
+  letter-spacing:2px;
+  margin:0;
+}
 
-    a { color: var(--accent); }
+h2 {font-size:25px;margin:17px 0}
+h3 {font-size:18px;margin:10px 0}
 
-    header {
-      padding: 22px 18px 15px;
-      background: #0d142b;
-      border-bottom: 1px solid #283153;
-    }
+p {color:#d2dbef;line-height:1.6}
 
-    .wrap {
-      max-width: 850px;
-      margin: 0 auto;
-    }
+small,.muted {color:var(--muted)}
 
-    .top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-    }
+#estado {
+  font-size:11px;
+  padding:9px 12px;
+  border-radius:30px;
+  background:#21304a;
+  color:#d7e6ff;
+  text-align:center;
+}
 
-    h1 {
-      margin: 0;
-      font-size: 30px;
-      letter-spacing: 3px;
-    }
+#estado.ok {
+  background:#183c34;
+  color:#99f3ca;
+}
 
-    h2 { font-size: 24px; margin: 10px 0 16px; }
-    h3 { margin: 10px 0; }
+#estado.error {
+  background:#47302e;
+  color:#ffceae;
+}
 
-    .subtitle, .muted {
-      color: var(--muted);
-      font-size: 13px;
-    }
+main {
+  max-width:1000px;
+  margin:auto;
+  padding:20px 15px 110px;
+}
 
-    .status {
-      background: #1b3141;
-      color: #9cf5cc;
-      border-radius: 30px;
-      padding: 7px 10px;
-      font-size: 11px;
-    }
+section {display:none}
+section.active {display:block}
 
-    main {
-      padding: 18px 14px 115px;
-      max-width: 850px;
-      margin: auto;
-    }
+.card {
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:18px;
+  overflow:hidden;
+  margin:14px 0;
+}
 
-    .hero, .card {
-      background: var(--panel);
-      border: 1px solid #2a3556;
-      border-radius: 19px;
-      overflow: hidden;
-      margin-bottom: 15px;
-    }
+.pad {padding:18px}
 
-    .hero img {
-      width: 100%;
-      max-height: 380px;
-      object-fit: cover;
-      display: block;
-    }
+.card img {
+  display:block;
+  width:100%;
+  max-height:400px;
+  object-fit:cover;
+}
 
-    .content { padding: 17px; }
+.grid {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:13px;
+}
 
-    .tag {
-      color: var(--accent);
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-    }
+.tile {
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  color:white;
+  text-align:left;
+  padding:18px;
+  min-height:115px;
+  cursor:pointer;
+}
 
-    p { line-height: 1.65; color: #d2d9ed; }
+.tile .emoji {
+  display:block;
+  font-size:29px;
+  margin-bottom:8px;
+}
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-    }
+.tile small {display:block;margin-top:5px}
 
-    .tile {
-      background: var(--panel);
-      border: 1px solid #303858;
-      padding: 20px 12px;
-      border-radius: 16px;
-      color: white;
-      text-align: left;
-      min-height: 112px;
-    }
+.tag {
+  color:var(--accent);
+  font-size:12px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.5px;
+}
 
-    .tile span {
-      display: block;
-      font-size: 24px;
-      margin-bottom: 9px;
-    }
+.btn {
+  display:inline-block;
+  background:var(--accent);
+  color:#13152d;
+  padding:11px 14px;
+  border-radius:11px;
+  text-decoration:none;
+  font-weight:700;
+  border:0;
+  margin:5px 5px 5px 0;
+  cursor:pointer;
+}
 
-    .tile small {
-      color: var(--muted);
-      display: block;
-      margin-top: 5px;
-    }
+.btn.secondary {
+  background:#2c3859;
+  color:white;
+}
 
-    .btn {
-      display: inline-block;
-      border: 0;
-      background: var(--accent);
-      color: #111328;
-      text-decoration: none;
-      border-radius: 12px;
-      padding: 11px 15px;
-      font-weight: 700;
-      margin: 5px 5px 5px 0;
-    }
+.article {
+  padding:17px;
+  border-bottom:1px solid var(--border);
+}
 
-    .btn.secondary {
-      background: var(--panel2);
-      color: white;
-    }
+.article:last-child {border-bottom:0}
+.article h3 {line-height:1.4}
+.article p {margin:8px 0}
 
-    .news {
-      padding: 18px;
-      border-bottom: 1px solid #303858;
-    }
+.gallery {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+}
 
-    .news:last-child { border-bottom: 0; }
+.gallery .card {margin:0}
+.gallery img {height:155px;object-fit:cover}
+.gallery h3 {font-size:15px}
 
-    .news h3 { font-size: 17px; }
+.notice {
+  background:#242d4c;
+  border-left:3px solid var(--accent);
+  border-radius:9px;
+  padding:15px;
+  margin:15px 0;
+  color:#e4e9fa;
+  line-height:1.5;
+}
 
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-    }
+.tabs {
+  display:flex;
+  gap:9px;
+  overflow-x:auto;
+  padding:6px 0;
+}
 
-    .gallery img {
-      width: 100%;
-      height: 145px;
-      object-fit: cover;
-      border-radius: 12px;
-    }
+.tabs button {
+  border:1px solid var(--border);
+  background:var(--card);
+  border-radius:30px;
+  padding:10px 15px;
+  color:white;
+  white-space:nowrap;
+}
 
-    .gallery .card { padding: 10px; }
+.tabs button.selected {
+  background:var(--accent);
+  color:#12162d;
+}
 
-    .gallery h3 { font-size: 14px; }
+nav {
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:0;
+  display:flex;
+  justify-content:space-around;
+  gap:2px;
+  background:#11182f;
+  border-top:1px solid var(--border);
+  padding:8px 3px calc(9px + env(safe-area-inset-bottom));
+  z-index:10;
+}
 
-    nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: #11182e;
-      border-top: 1px solid #303858;
-      display: flex;
-      justify-content: space-around;
-      padding: 9px 3px calc(10px + env(safe-area-inset-bottom));
-      z-index: 10;
-    }
+nav button {
+  background:none;
+  border:0;
+  color:#aeb9d3;
+  min-width:54px;
+  padding:5px 2px;
+  font-size:11px;
+  cursor:pointer;
+}
 
-    nav button {
-      background: transparent;
-      border: 0;
-      color: #a8b3d0;
-      font-size: 11px;
-      min-width: 55px;
-      padding: 5px 2px;
-    }
+nav button span {
+  display:block;
+  font-size:23px;
+  margin-bottom:4px;
+}
 
-    nav button span {
-      display: block;
-      font-size: 21px;
-      margin-bottom: 4px;
-    }
+nav button.active {color:var(--accent)}
 
-    nav button.active { color: var(--accent); }
+footer {
+  padding:20px;
+  text-align:center;
+  font-size:12px;
+  color:var(--muted);
+}
 
-    .hidden { display: none; }
+@media(min-width:700px) {
+  .grid {grid-template-columns:repeat(3,1fr)}
+  .gallery {grid-template-columns:repeat(3,1fr)}
+}
 
-    .small { font-size: 12px; }
-
-    .warning {
-      border-left: 3px solid #f6ba6b;
-      padding: 12px;
-      background: #302b37;
-      border-radius: 8px;
-    }
-
-    @media (min-width: 650px) {
-      .grid { grid-template-columns: repeat(3, 1fr); }
-      .gallery { grid-template-columns: repeat(3, 1fr); }
-    }
-  </style>
+</style>
 </head>
 
 <body>
 
 <header>
-  <div class="wrap top">
+  <div class="inside">
     <div>
       <h1>✦ COSMOS</h1>
-      <div class="subtitle">Tu universo, cada día</div>
+      <small>Tu universo, cada día</small>
     </div>
-    <div class="status" id="estado">Conectando...</div>
+    <div id="estado">Conectando...</div>
   </div>
 </header>
 
 <main>
-  <section id="inicio"></section>
-  <section id="noticias" class="hidden"></section>
-  <section id="cielo" class="hidden"></section>
-  <section id="explorar" class="hidden"></section>
-  <section id="favoritos" class="hidden"></section>
+  <section id="inicio" class="active"></section>
+  <section id="noticias"></section>
+  <section id="cielo"></section>
+  <section id="explorar"></section>
+  <section id="aprender"></section>
 </main>
 
 <nav>
-  <button onclick="ir('inicio')" id="nav-inicio">
+  <button data-page="inicio" class="active">
     <span>⌂</span>Inicio
   </button>
-  <button onclick="ir('noticias')" id="nav-noticias">
-    <span>☄</span>Noticias
+  <button data-page="noticias">
+    <span>📰</span>Noticias
   </button>
-  <button onclick="ir('cielo')" id="nav-cielo">
+  <button data-page="cielo">
     <span>☾</span>Mi cielo
   </button>
-  <button onclick="ir('explorar')" id="nav-explorar">
-    <span>✧</span>Explorar
+  <button data-page="explorar">
+    <span>🚀</span>Explorar
   </button>
-  <button onclick="ir('favoritos')" id="nav-favoritos">
-    <span>♥</span>Guardados
+  <button data-page="aprender">
+    <span>✧</span>Aprender
   </button>
 </nav>
+
+<footer>
+  COSMOS · Información científica de fuentes oficiales.
+  Proyecto independiente, no afiliado a la NASA.
+</footer>
 
 <script>
 "use strict";
 
 /*
- IMPORTANTE:
- Sustituye esta URL por la que obtuviste
- al implementar Google Apps Script.
+ PEGA AQUÍ TU URL REAL DE APPS SCRIPT.
+ Debe terminar en /exec.
 */
 
-const API_URL =
-  "https://script.googleusercontent.com/macros/echo?user_content_key=AUkAhnTSwccmbh4aIR4LSrOgugbM37EvHRMdF9PBOTJQ38uZVHgNkRQVitizur9GYt0Gw5wSHlo6DRADvzB803DSBJrmblANLt-Db0cFRJdecRVIDPF1Kz2Dx8EGROooy6ZGQyAfzqI1xWlScX-83sGFwEb7zQ0NuLQX7WILS-JMCRTV9QtwbI1QeD5ySLFkfuEinnX0FiUtaCMv-8nKURoMTHbCDTPYq-l9LJr0c_Er-RyJAoepf4OHcaTJ-iv5D1Am7wqg0fe9w06PU422whGAqjw-HGz12Q&lib=MLrthMyMUsHZzieVCF7lPwz0KlVsBVvwT";
+const API_URL = "PEGA_AQUI_LA_URL_DE_APPS_SCRIPT";
 
-let datos = {};
-let paginaActual = "inicio";
+let datos = {
+  imagen:null,
+  galeria:[],
+  noticias:[],
+  misiones:[],
+  asteroides:[],
+  errores:[]
+};
 
-const secciones = [
-  "inicio", "noticias", "cielo", "explorar", "favoritos"
-];
+let pagina = "inicio";
+let tema = "planetas";
 
-function escapar(texto) {
-  return String(texto ?? "").replace(/[&<>"']/g, c => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;"
+const enlaces = {
+  nasa:"https://www.nasa.gov/",
+  noticias:"https://www.nasa.gov/news/",
+  ciencia:"https://science.nasa.gov/",
+  imagen:"https://science.nasa.gov/astronomy-picture-of-the-day/",
+  galeria:"https://images.nasa.gov/",
+  artemis:"https://www.nasa.gov/mission/artemis/",
+  asteroides:"https://cneos.jpl.nasa.gov/ca/",
+  stellarium:"https://stellarium-web.org/",
+  luna:"https://science.nasa.gov/moon/",
+  sky:"https://science.nasa.gov/skywatching/"
+};
+
+function esc(t) {
+  return String(t ?? "").replace(/[&<>"']/g,c=>({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#39;"
   })[c]);
 }
 
-function urlSegura(valor) {
+function enlaceSeguro(valor) {
   try {
     const u = new URL(valor);
-    return u.protocol === "https:" ? u.href : "";
+    if (u.protocol !== "https:") return "";
+
+    const host = u.hostname.toLowerCase();
+
+    const permitidos = [
+      "nasa.gov",
+      "jpl.nasa.gov",
+      "stellarium-web.org",
+      "esa.int",
+      "esahubble.org"
+    ];
+
+    if (!permitidos.some(d =>
+      host === d || host.endsWith("." + d)
+    )) return "";
+
+    return u.href;
   } catch {
     return "";
   }
 }
 
-function botonEnlace(url, titulo) {
-  const seguro = urlSegura(url);
+function boton(url,label) {
+  const seguro = enlaceSeguro(url);
   if (!seguro) return "";
+
   return `<a class="btn secondary"
-    target="_blank" rel="noopener noreferrer"
-    href="${escapar(seguro)}">${escapar(titulo)}</a>`;
+    href="${esc(seguro)}"
+    target="_blank" rel="noopener noreferrer">
+    ${esc(label)}
+  </a>`;
 }
 
-function fechaBonita(fecha) {
-  if (!fecha) return "";
-  const d = new Date(fecha);
-  if (isNaN(d.getTime())) return String(fecha);
-  return d.toLocaleDateString("es-ES", {
-    day: "numeric", month: "long", year: "numeric"
+function imagen(url,alt) {
+  const seguro = enlaceSeguro(url);
+  if (!seguro) return "";
+
+  return `<img src="${esc(seguro)}"
+    alt="${esc(alt || 'Imagen astronómica')}"
+    loading="lazy"
+    onerror="this.style.display='none'">`;
+}
+
+function fecha(valor) {
+  if (!valor) return "Fecha no disponible";
+
+  const d = new Date(valor);
+
+  if (isNaN(d.getTime())) return String(valor);
+
+  return d.toLocaleDateString("es-ES",{
+    day:"numeric",
+    month:"long",
+    year:"numeric"
   });
 }
 
-function imagen(url, alt) {
-  const seguro = urlSegura(url);
-  if (!seguro) return "";
-  return `<img loading="lazy"
-    src="${escapar(seguro)}"
-    alt="${escapar(alt || 'Fotografía espacial')}">`;
+function estado(texto,ok=false) {
+  const e = document.getElementById("estado");
+  e.textContent = texto;
+  e.className = ok ? "ok" : "error";
 }
 
-function favoritosLeer() {
-  try {
-    return JSON.parse(localStorage.getItem("cosmosFavs") || "[]");
-  } catch {
-    return [];
+function navegar(nombre) {
+  pagina = nombre;
+
+  document.querySelectorAll("main section").forEach(s=>{
+    s.classList.toggle("active",s.id === nombre);
+  });
+
+  document.querySelectorAll("nav button").forEach(b=>{
+    b.classList.toggle(
+      "active",b.dataset.page === nombre
+    );
+  });
+
+  dibujar();
+  window.scrollTo(0,0);
+}
+
+document.querySelectorAll("nav button").forEach(b=>{
+  b.addEventListener("click",()=>navegar(b.dataset.page));
+});
+
+// Comunicación con Google Apps Script.
+// No requiere iniciar sesión.
+function cargar() {
+  if (!/^https:\/\/script\.google\.com\/macros\/s\/.+\/exec$/
+      .test(API_URL)) {
+    estado("Falta configurar API");
+    dibujar();
+    return;
   }
-}
 
-function guardarFavorito(id) {
-  const todos = [
-    datos.imagen,
-    ...(datos.galeria || [])
-  ].filter(Boolean);
+  const callback = "cosmosCallback_" +
+    Date.now() + "_" + Math.floor(Math.random()*100000);
 
-  const objeto = todos.find(x => String(x.id) === String(id));
-  if (!objeto) return;
-
-  let favs = favoritosLeer();
-
-  if (favs.some(x => x.id === objeto.id)) {
-    favs = favs.filter(x => x.id !== objeto.id);
-  } else {
-    favs.unshift(objeto);
-  }
-
-  localStorage.setItem("cosmosFavs", JSON.stringify(favs));
-  render();
-}
-
-function botonFavorito(id) {
-  const guardado = favoritosLeer()
-    .some(x => String(x.id) === String(id));
-
-  return `<button class="btn"
-    onclick='guardarFavorito(${JSON.stringify(String(id))})'>
-    ${guardado ? "♥ Guardado" : "♡ Guardar"}
-  </button>`;
-}
-
-// Conexión JSONP a Google Apps Script.
-function cargarDatos() {
-  const estado = document.getElementById("estado");
-  estado.textContent = "Actualizando...";
-
-  const callback = "cosmosCallback_" + Date.now();
   const script = document.createElement("script");
-
   let terminado = false;
 
-  window[callback] = function(respuesta) {
-    terminado = true;
-    datos = respuesta || {};
-
-    try {
-      localStorage.setItem("cosmosDatos", JSON.stringify(datos));
-    } catch {}
-
-    estado.textContent = "● Actualizado";
-    render();
-    limpiar();
-  };
+  const reloj = setTimeout(()=>{
+    fallo("La API no respondió en 20 segundos");
+  },20000);
 
   function limpiar() {
+    clearTimeout(reloj);
     script.remove();
     delete window[callback];
   }
 
-  script.onerror = function() {
-    fallo();
-  };
-
-  function fallo() {
+  function fallo(mensaje) {
     if (terminado) return;
     terminado = true;
+    limpiar();
 
     try {
-      datos = JSON.parse(localStorage.getItem("cosmosDatos") || "{}");
-    } catch {
-      datos = {};
-    }
+      const anterior = localStorage.getItem("cosmosCacheV2");
+      if (anterior) datos = JSON.parse(anterior);
+    } catch {}
 
-    estado.textContent = "Modo sin conexión";
-    render();
-    limpiar();
+    estado("Sin conexión con la API");
+    dibujar();
+    console.error("COSMOS:",mensaje);
   }
 
-  setTimeout(fallo, 15000);
+  window[callback] = function(respuesta) {
+    if (terminado) return;
+    terminado = true;
+    limpiar();
+
+    if (!respuesta ||
+        !Array.isArray(respuesta.noticias) ||
+        !Array.isArray(respuesta.asteroides)) {
+      estado("Respuesta API inválida");
+      dibujar();
+      return;
+    }
+
+    datos = respuesta;
+
+    try {
+      localStorage.setItem(
+        "cosmosCacheV2",JSON.stringify(datos)
+      );
+    } catch {}
+
+    estado("● Conectado",true);
+    dibujar();
+  };
+
+  script.onerror = ()=>{
+    fallo("No pudo cargarse la respuesta de Apps Script");
+  };
 
   script.src = API_URL +
     "?callback=" + encodeURIComponent(callback) +
-    "&t=" + Date.now();
+    "&cache=" + Date.now();
 
   document.body.appendChild(script);
 }
 
-function ir(nombre) {
-  if (!secciones.includes(nombre)) return;
+function estadoDatos() {
+  const actualizacion = datos.actualizado
+    ? new Date(datos.actualizado).toLocaleString("es-ES")
+    : "Todavía no hay datos del servidor";
 
-  paginaActual = nombre;
-
-  secciones.forEach(id => {
-    document.getElementById(id)
-      .classList.toggle("hidden", id !== nombre);
-
-    document.getElementById("nav-" + id)
-      .classList.toggle("active", id === nombre);
-  });
-
-  render();
-  window.scrollTo(0, 0);
+  return `<div class="notice">
+    <strong>Última comprobación de datos:</strong>
+    ${esc(actualizacion)}
+    <br>
+    <small>
+      La NASA publica novedades según su propio calendario.
+      COSMOS comprueba las fuentes cada 10 minutos.
+    </small>
+  </div>`;
 }
 
-function tarjetaAPOD(objeto, principal = false) {
-  if (!objeto) {
-    return `<div class="card content">
-      Aún no hay una imagen disponible.
+function apod(o) {
+  if (!o || !o.imagen) {
+    return `<div class="card pad">
+      <h3>Imagen astronómica</h3>
+      <p>No se ha podido recuperar la imagen automáticamente.</p>
+      ${boton(enlaces.imagen,"Ver la imagen oficial")}
     </div>`;
   }
 
-  const foto = imagen(objeto.imagen, objeto.titulo);
-
-  return `<article class="${principal ? 'hero' : 'card'}">
-    ${foto}
-    <div class="content">
-      <div class="tag">NASA · ${escapar(objeto.fecha)}</div>
-      <h3>${escapar(objeto.titulo)}</h3>
-      <p>${escapar(
-        principal
-          ? (objeto.descripcion || "").slice(0, 850)
-          : (objeto.descripcion || "").slice(0, 180)
-      )}</p>
-      ${objeto.credito
-        ? `<p class="small muted">Crédito: ${escapar(objeto.credito)}</p>`
-        : ""}
-      ${botonFavorito(objeto.id)}
-      ${botonEnlace(objeto.url, "Ver en NASA")}
+  return `<article class="card">
+    ${imagen(o.imagen,o.titulo)}
+    <div class="pad">
+      <div class="tag">Imagen astronómica NASA</div>
+      <h2>${esc(o.titulo)}</h2>
+      <small>${esc(fecha(o.fecha))}</small>
+      <p>${esc((o.descripcion || "").slice(0,1200))}</p>
+      ${boton(o.url,"Ver publicación original")}
     </div>
   </article>`;
 }
 
-function renderInicio() {
-  const fecha = datos.actualizado
-    ? fechaBonita(datos.actualizado)
-    : "Sin actualizar";
-
-  document.getElementById("inicio").innerHTML = `
-    <div class="tag">OBSERVATORIO PERSONAL</div>
-    <h2>El universo está esperando ✨</h2>
-    <p class="muted">Últimos datos: ${escapar(fecha)}</p>
-
-    <div class="tag">Imagen astronómica del día</div>
-    ${tarjetaAPOD(datos.imagen, true)}
-
-    <h2>¿Qué quieres descubrir?</h2>
-
-    <div class="grid">
-      <button class="tile" onclick="ir('cielo')">
-        <span>🌙</span>Mi cielo
-        <small>La Luna y qué observar</small>
-      </button>
-
-      <button class="tile" onclick="ir('noticias')">
-        <span>📰</span>Actualidad espacial
-        <small>Últimas noticias NASA</small>
-      </button>
-
-      <button class="tile" onclick="ir('explorar')">
-        <span>🚀</span>Misiones
-        <small>Exploración espacial</small>
-      </button>
-
-      <button class="tile" onclick="ir('explorar')">
-        <span>☄️</span>Asteroides
-        <small>Próximas aproximaciones</small>
-      </button>
-
-      <button class="tile" onclick="ir('explorar')">
-        <span>🌌</span>Galería
-        <small>Fotografías del universo</small>
-      </button>
-
-      <button class="tile" onclick="ir('favoritos')">
-        <span>💜</span>Mi colección
-        <small>Tus descubrimientos favoritos</small>
-      </button>
-    </div>
-  `;
-}
-
-function pintarNoticias(lista, titulo) {
-  if (!lista || !lista.length) {
-    return `<div class="card content">
-      Todavía no hay noticias disponibles.
+function articulos(lista,fuente) {
+  if (!Array.isArray(lista) || !lista.length) {
+    return `<div class="card pad">
+      <p>No hay publicaciones disponibles en este momento.</p>
+      ${boton(fuente,"Consultar fuente oficial")}
     </div>`;
   }
 
-  return lista.map(n => `
-    <article class="news">
-      <div class="tag">${escapar(n.fuente || titulo)}</div>
-      <h3>${escapar(n.titulo)}</h3>
-      <div class="muted">${escapar(fechaBonita(n.fecha))}</div>
-      <p>${escapar(n.resumen)}</p>
-      ${botonEnlace(n.url, "Leer noticia completa")}
-    </article>
-  `).join("");
+  return `<div class="card">` +
+    lista.map(n=>`
+      <article class="article">
+        <div class="tag">${esc(n.fuente || "NASA")}</div>
+        <h3>${esc(n.titulo)}</h3>
+        <small>${esc(fecha(n.fecha))}</small>
+        <p>${esc(n.resumen || "")}</p>
+        ${boton(n.url,"Leer en la fuente oficial")}
+      </article>
+    `).join("") +
+    `</div>`;
+}
+
+function renderInicio() {
+  const ultimas = (datos.noticias || []).slice(0,3);
+
+  document.getElementById("inicio").innerHTML = `
+    <div class="tag">OBSERVATORIO ASTRONÓMICO</div>
+    <h2>Un universo por descubrir ✨</h2>
+    ${estadoDatos()}
+    ${apod(datos.imagen)}
+
+    <h2>Explora COSMOS</h2>
+    <div class="grid">
+      <button class="tile" onclick="navegar('noticias')">
+        <span class="emoji">📰</span>
+        Noticias
+        <small>Actualidad espacial</small>
+      </button>
+      <button class="tile" onclick="navegar('cielo')">
+        <span class="emoji">🌙</span>
+        Mi cielo
+        <small>Luna y observación</small>
+      </button>
+      <button class="tile" onclick="navegar('explorar')">
+        <span class="emoji">🚀</span>
+        Misiones
+        <small>Exploración del espacio</small>
+      </button>
+      <button class="tile" onclick="navegar('explorar')">
+        <span class="emoji">☄️</span>
+        Asteroides
+        <small>Aproximaciones previstas</small>
+      </button>
+      <button class="tile" onclick="navegar('explorar')">
+        <span class="emoji">🌌</span>
+        Galería
+        <small>Fotografías espaciales</small>
+      </button>
+      <button class="tile" onclick="navegar('aprender')">
+        <span class="emoji">🔭</span>
+        Aprender
+        <small>Descubre el universo</small>
+      </button>
+    </div>
+
+    <h2>Últimas noticias</h2>
+    ${articulos(ultimas,enlaces.noticias)}
+  `;
 }
 
 function renderNoticias() {
   document.getElementById("noticias").innerHTML = `
-    <h2>Noticias del cosmos 📰</h2>
-    <p>Descubre lo último publicado por la NASA.</p>
-
-    <div class="card">
-      ${pintarNoticias(datos.noticias, "NASA")}
-    </div>
-
-    <p class="small muted">
-      Los titulares pueden estar en inglés.
-      Abre el enlace original para leer la noticia.
-    </p>
+    <h2>Actualidad del cosmos 📰</h2>
+    <p>Publicaciones científicas y noticias de la NASA.</p>
+    ${estadoDatos()}
+    ${articulos(datos.noticias,enlaces.noticias)}
+    ${boton(enlaces.ciencia,"NASA Science")}
   `;
 }
 
-// Cálculo aproximado de la edad de la Luna.
-function obtenerLuna() {
-  const lunacion = 29.530588853;
-  const referencia = Date.UTC(2000, 0, 6, 18, 14);
-  const dias = (Date.now() - referencia) / 86400000;
-  const edad = ((dias % lunacion) + lunacion) % lunacion;
-
-  let nombre = "";
-  let emoji = "";
-
-  if (edad < 1.85) {
-    nombre = "Luna nueva"; emoji = "🌑";
-  } else if (edad < 5.54) {
-    nombre = "Creciente"; emoji = "🌒";
-  } else if (edad < 9.23) {
-    nombre = "Cuarto creciente"; emoji = "🌓";
-  } else if (edad < 12.92) {
-    nombre = "Gibosa creciente"; emoji = "🌔";
-  } else if (edad < 16.61) {
-    nombre = "Luna llena"; emoji = "🌕";
-  } else if (edad < 20.30) {
-    nombre = "Gibosa menguante"; emoji = "🌖";
-  } else if (edad < 23.99) {
-    nombre = "Cuarto menguante"; emoji = "🌗";
-  } else if (edad < 27.68) {
-    nombre = "Menguante"; emoji = "🌘";
-  } else {
-    nombre = "Luna nueva próxima"; emoji = "🌑";
-  }
+// Fase lunar aproximada, sin acceso a datos privados.
+function luna() {
+  const ciclo = 29.530588853;
+  const referencia = Date.UTC(2000,0,6,18,14);
+  const edad = ((Date.now()-referencia)/86400000
+    % ciclo + ciclo) % ciclo;
 
   const iluminacion = Math.round(
-    (1 - Math.cos(2 * Math.PI * edad / lunacion)) * 50
+    (1-Math.cos(2*Math.PI*edad/ciclo))*50
   );
 
-  return { nombre, emoji, iluminacion };
+  const nombres = [
+    "Luna nueva",
+    "Luna creciente",
+    "Cuarto creciente",
+    "Gibosa creciente",
+    "Luna llena",
+    "Gibosa menguante",
+    "Cuarto menguante",
+    "Luna menguante"
+  ];
+
+  const emojis = ["🌑","🌒","🌓","🌔","🌕","🌖","🌗","🌘"];
+  const indice = Math.floor((edad/ciclo*8)+0.5)%8;
+
+  return {
+    nombre:nombres[indice],
+    emoji:emojis[indice],
+    iluminacion
+  };
 }
 
 function renderCielo() {
-  const luna = obtenerLuna();
+  const l = luna();
 
   document.getElementById("cielo").innerHTML = `
     <h2>Mi cielo esta noche 🌙</h2>
 
-    <div class="card content">
-      <div style="text-align:center;font-size:85px">
-        ${luna.emoji}
-      </div>
-      <h2 style="text-align:center">${luna.nombre}</h2>
-      <p style="text-align:center">
-        Iluminación aproximada: ${luna.iluminacion}%
-      </p>
-      <p class="muted small">
-        Cálculo orientativo de fase lunar.
-        No incluye hora de salida o puesta de la Luna.
-      </p>
+    <div class="card pad" style="text-align:center">
+      <div style="font-size:85px">${l.emoji}</div>
+      <h2>${l.nombre}</h2>
+      <p>Iluminación aproximada: ${l.iluminacion}%</p>
+      <small>
+        Estimación matemática. No sustituye una efeméride
+        astronómica de precisión.
+      </small>
     </div>
 
-    <div class="card content">
-      <div class="tag">OBSERVACIÓN DEL CIELO</div>
-      <h3>Descubre qué hay sobre ti</h3>
+    <div class="card pad">
+      <div class="tag">MAPA ESTELAR</div>
+      <h3>¿Qué estrellas hay sobre ti?</h3>
       <p>
-        Abre un mapa estelar interactivo para consultar
-        estrellas, constelaciones y planetas según la fecha
-        y tu ubicación.
+        Consulta un mapa del cielo con estrellas,
+        planetas y constelaciones.
       </p>
-      ${botonEnlace(
-        "https://stellarium-web.org/",
-        "Abrir mapa del cielo"
-      )}
-      <p class="small muted">
-        Stellarium puede solicitar permiso de ubicación.
-        La aplicación COSMOS no recibe tus coordenadas.
-      </p>
+      ${boton(enlaces.stellarium,"Abrir mapa interactivo")}
+      <small>
+        El mapa se abre en Stellarium.
+        No es necesario crear una cuenta COSMOS.
+      </small>
     </div>
 
-    <div class="card content">
-      <h3>Consejos para observar estrellas</h3>
-      <p>✦ Busca un lugar con poca contaminación lumínica.</p>
-      <p>✦ Consulta la nubosidad antes de salir.</p>
-      <p>✦ Usa luz roja para conservar la visión nocturna.</p>
-      <p>✦ La Luna muy brillante dificulta observar objetos débiles.</p>
+    <div class="card pad">
+      <h3>Observación astronómica</h3>
+      <p>
+        La visibilidad real depende de la ubicación,
+        la hora, la nubosidad y la contaminación lumínica.
+      </p>
+      ${boton(enlaces.sky,"Consejos oficiales NASA")}
+      ${boton(enlaces.luna,"La Luna según NASA")}
     </div>
   `;
 }
 
 function renderExplorar() {
-  const asteroides = datos.asteroides || [];
   const galeria = datos.galeria || [];
+  const asteroides = datos.asteroides || [];
 
-  const listaAsteroides = asteroides.length
-    ? asteroides.map(a => `
-      <article class="news">
-        <h3>☄️ ${escapar(a.nombre)}</h3>
-        <p>Fecha de aproximación: ${escapar(a.fecha)} (TDB)</p>
-        <p>Distancia nominal:
+  const fichas = asteroides.length
+    ? asteroides.map(a=>`
+      <article class="article">
+        <h3>☄️ ${esc(a.nombre)}</h3>
+        <p>
+          <strong>Aproximación:</strong>
+          ${esc(a.fecha)}
+        </p>
+        <p>
+          <strong>Distancia nominal:</strong>
           ${Number(a.distanciaKm).toLocaleString("es-ES")} km
         </p>
-        <p>Velocidad relativa:
-          ${escapar(a.velocidad)} km/s
+        <p>
+          <strong>Velocidad relativa:</strong>
+          ${Number(a.velocidadKmS).toFixed(1)} km/s
         </p>
       </article>
     `).join("")
-    : `<div class="content">Sin datos de asteroides.</div>`;
+    : `<div class="pad">
+      No se han recibido aproximaciones todavía.
+      ${boton(enlaces.asteroides,"Consultar NASA/JPL")}
+    </div>`;
+
+  const fotos = galeria.length
+    ? galeria.map(f=>`
+      <article class="card">
+        ${imagen(f.imagen,f.titulo)}
+        <div class="pad">
+          <h3>${esc(f.titulo)}</h3>
+          ${boton(f.url,"Ver original")}
+        </div>
+      </article>
+    `).join("")
+    : `<div class="card pad">
+      No se han recibido fotografías de la galería.
+      ${boton(enlaces.galeria,"Abrir galería oficial NASA")}
+    </div>`;
 
   document.getElementById("explorar").innerHTML = `
     <h2>Explora el universo 🚀</h2>
 
-    <div class="tag">MISIONES ESPACIALES</div>
-    <h3>Actualidad de Artemis</h3>
-    <div class="card">
-      ${pintarNoticias(datos.misiones, "Artemis")}
-    </div>
+    ${estadoDatos()}
 
-    <h2>Asteroides próximos a la Tierra ☄️</h2>
+    <div class="tag">MISIONES ESPACIALES</div>
+    <h2>NASA y Artemis</h2>
+    ${articulos(datos.misiones,enlaces.artemis)}
+
+    <h2>Asteroides próximos ☄️</h2>
     <p>
-      Aproximaciones previstas durante los próximos 30 días,
-      dentro de 0,05 unidades astronómicas.
-      No significa que vayan a impactar.
+      Aproximaciones previstas a la Tierra durante los
+      próximos 30 días, hasta 0,05 unidades astronómicas.
+      Esto no indica riesgo de impacto.
     </p>
 
-    <div class="card">${listaAsteroides}</div>
+    <div class="card">${fichas}</div>
+    ${boton(enlaces.asteroides,"Centro NASA/JPL")}
 
     <h2>Galería del universo 🌌</h2>
-    <div class="gallery">
-      ${galeria.map(x => `
-        <div class="card">
-          ${imagen(x.imagen, x.titulo)}
-          <h3>${escapar(x.titulo)}</h3>
-          ${botonFavorito(x.id)}
-          ${botonEnlace(x.url, "NASA")}
-        </div>
-      `).join("") || "<p>Sin imágenes disponibles.</p>"}
-    </div>
+    <div class="gallery">${fotos}</div>
 
-    <h2>Más lugares que explorar</h2>
-    <div class="card content">
-      ${botonEnlace(
-        "https://science.nasa.gov/exoplanets/",
-        "Exoplanetas NASA"
-      )}
-      ${botonEnlace(
-        "https://eyes.nasa.gov/",
-        "NASA Eyes"
-      )}
-      ${botonEnlace(
-        "https://science.nasa.gov/mission/dragonfly/",
-        "Misión Dragonfly"
-      )}
-      ${botonEnlace(
-        "https://esahubble.org/images/",
-        "Imágenes del Hubble"
-      )}
+    <div class="card pad">
+      <h3>Biblioteca de imágenes NASA</h3>
+      <p>
+        Busca más imágenes originales de misiones,
+        planetas, nebulosas y galaxias.
+      </p>
+      ${boton(enlaces.galeria,"Explorar biblioteca")}
     </div>
   `;
 }
 
-function renderFavoritos() {
-  const favs = favoritosLeer();
+const temas = {
+  planetas:{
+    titulo:"Los planetas",
+    descripcion:"Conoce los mundos del sistema solar, sus atmósferas, satélites y características.",
+    url:"https://science.nasa.gov/solar-system/planets/"
+  },
+  estrellas:{
+    titulo:"Estrellas",
+    descripcion:"Cómo nacen, cómo evolucionan y qué ocurre cuando agotan su combustible.",
+    url:"https://science.nasa.gov/universe/stars/"
+  },
+  galaxias:{
+    titulo:"Galaxias",
+    descripcion:"Explora la Vía Láctea y los miles de millones de galaxias que podemos estudiar.",
+    url:"https://science.nasa.gov/universe/galaxies/"
+  },
+  agujeros:{
+    titulo:"Agujeros negros",
+    descripcion:"Descubre estos objetos extremos y sus efectos gravitatorios.",
+    url:"https://science.nasa.gov/universe/black-holes/"
+  },
+  exoplanetas:{
+    titulo:"Exoplanetas",
+    descripcion:"Mundos que orbitan estrellas diferentes al Sol y la búsqueda de planetas habitables.",
+    url:"https://science.nasa.gov/exoplanets/"
+  },
+  lunas:{
+    titulo:"Lunas del sistema solar",
+    descripcion:"Desde nuestra Luna hasta Titán, Europa y Encélado.",
+    url:"https://science.nasa.gov/solar-system/moons/"
+  }
+};
 
-  document.getElementById("favoritos").innerHTML = `
-    <h2>Mi pequeño universo 💜</h2>
-    <p>Aquí viven tus descubrimientos favoritos.</p>
+function elegirTema(id) {
+  tema = id;
+  renderAprender();
+}
 
-    ${favs.length
-      ? favs.map(x => `
-        <div class="card">
-          ${imagen(x.imagen, x.titulo)}
-          <div class="content">
-            <h3>${escapar(x.titulo)}</h3>
-            <p>${escapar((x.descripcion || "").slice(0, 250))}</p>
-            ${botonEnlace(x.url, "Ver en NASA")}
-            <button class="btn secondary"
-              onclick='eliminarFavorito(${JSON.stringify(String(x.id))})'>
-              Quitar favorito
-            </button>
-          </div>
-        </div>
-      `).join("")
-      : `<div class="card content">
-          Todavía no has guardado ninguna imagen.
-          Empieza explorando la galería.
-        </div>`
-    }
+function renderAprender() {
+  const actual = temas[tema];
 
-    <p class="small muted">
-      Tus favoritos se guardan en este dispositivo.
-      Si borras los datos de la aplicación o cambias de móvil,
-      podrían perderse.
-    </p>
+  const botones = Object.entries(temas).map(([id,t])=>
+    `<button class="${id===tema?'selected':''}"
+      onclick="elegirTema('${id}')">
+      ${esc(t.titulo)}
+    </button>`
+  ).join("");
+
+  document.getElementById("aprender").innerHTML = `
+    <h2>Aprender astronomía 🔭</h2>
+    <p>Una biblioteca pública de conocimiento científico.</p>
+
+    <div class="tabs">${botones}</div>
+
+    <div class="card pad">
+      <div class="tag">ENCICLOPEDIA NASA</div>
+      <h2>${esc(actual.titulo)}</h2>
+      <p>${esc(actual.descripcion)}</p>
+      ${boton(actual.url,"Aprender en NASA")}
+    </div>
+
+    <div class="card pad">
+      <h3>Exploración interactiva</h3>
+      <p>Recorre el sistema solar y las misiones de la NASA.</p>
+      ${boton("https://eyes.nasa.gov/","Abrir NASA Eyes")}
+    </div>
   `;
 }
 
-function eliminarFavorito(id) {
-  const nuevos = favoritosLeer()
-    .filter(x => String(x.id) !== String(id));
-
-  localStorage.setItem("cosmosFavs", JSON.stringify(nuevos));
-  render();
-}
-
-function render() {
+function dibujar() {
   renderInicio();
   renderNoticias();
   renderCielo();
   renderExplorar();
-  renderFavoritos();
+  renderAprender();
 }
 
-window.addEventListener("DOMContentLoaded", () => {
-  ir("inicio");
-
-  if (API_URL.includes("PEGA_AQUI")) {
-    document.getElementById("estado").textContent = "Configurar API";
-    document.getElementById("inicio").insertAdjacentHTML(
-      "afterbegin",
-      `<div class="warning">
-        Falta configurar la URL de Google Apps Script
-        en index.html.
-      </div>`
-    );
-    return;
-  }
-
+// Arranque de la aplicación.
+document.addEventListener("DOMContentLoaded",()=>{
   try {
-    datos = JSON.parse(localStorage.getItem("cosmosDatos") || "{}");
-  } catch {
-    datos = {};
-  }
+    const copia = localStorage.getItem("cosmosCacheV2");
+    if (copia) datos = JSON.parse(copia);
+  } catch {}
 
-  render();
-  cargarDatos();
+  dibujar();
+  cargar();
 
-  // Consulta datos nuevos cada 30 minutos mientras esté abierta.
-  setInterval(cargarDatos, 30 * 60 * 1000);
+  // Comprobación cada diez minutos.
+  setInterval(cargar,10*60*1000);
+
+  // Actualiza al volver a la pestaña.
+  document.addEventListener("visibilitychange",()=>{
+    if (!document.hidden) cargar();
+  });
 });
 
 if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
+  window.addEventListener("load",()=>{
     navigator.serviceWorker.register("./sw.js")
-      .catch(error => console.warn("Service worker:", error));
+      .catch(error=>console.warn("SW:",error));
   });
 }
-</script>
 
+</script>
 </body>
 </html>
