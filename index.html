@@ -256,6 +256,126 @@ footer {
 </style>
 </head>
 
+<style>
+#cosmosInstalar {
+  position:fixed;
+  bottom:85px;
+  left:50%;
+  transform:translateX(-50%);
+  width:min(90%,360px);
+  padding:16px;
+  border:0;
+  border-radius:16px;
+  background:#c5b4ff;
+  color:#10152b;
+  font-size:16px;
+  font-weight:bold;
+  z-index:999;
+  cursor:pointer;
+  box-shadow:0 8px 25px #0007;
+  display:none;
+}
+
+#cosmosModal {
+  display:none;
+  position:fixed;
+  inset:0;
+  background:#000b;
+  z-index:1000;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+
+#cosmosModalContenido {
+  background:#19213d;
+  color:white;
+  padding:25px;
+  border-radius:20px;
+  max-width:380px;
+  width:100%;
+  line-height:1.6;
+}
+</style>
+
+<button id="cosmosInstalar">
+  📲 Instalar COSMOS gratis
+</button>
+
+<div id="cosmosModal">
+  <div id="cosmosModalContenido">
+    <h2>Instalar COSMOS 🌌</h2>
+    <p id="cosmosInstrucciones"></p>
+    <button class="btn" id="cosmosCerrar">
+      Entendido
+    </button>
+  </div>
+</div>
+
+<script>
+(function () {
+  let eventoInstalacion = null;
+
+  const boton = document.getElementById("cosmosInstalar");
+  const modal = document.getElementById("cosmosModal");
+  const instrucciones = document.getElementById("cosmosInstrucciones");
+
+  const instalada =
+    window.matchMedia("(display-mode: standalone)").matches ||
+    navigator.standalone === true;
+
+  if (instalada) return;
+
+  const ios = /iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+    (navigator.platform === "MacIntel" &&
+     navigator.maxTouchPoints > 1);
+
+  const android = /Android/i.test(navigator.userAgent);
+
+  function mostrarAyuda() {
+    instrucciones.textContent = ios
+      ? "Abre COSMOS en Safari, pulsa Compartir y después Añadir a pantalla de inicio. Activa Abrir como app si aparece."
+      : "Abre COSMOS en Chrome, pulsa los tres puntos y selecciona Instalar aplicación o Añadir a pantalla de inicio.";
+
+    modal.style.display = "flex";
+  }
+
+  window.addEventListener("beforeinstallprompt", function(e) {
+    e.preventDefault();
+    eventoInstalacion = e;
+    boton.style.display = "block";
+  });
+
+  if (ios || android) {
+    boton.style.display = "block";
+  }
+
+  boton.addEventListener("click", async function() {
+    if (eventoInstalacion) {
+      const evento = eventoInstalacion;
+      eventoInstalacion = null;
+      await evento.prompt();
+      const resultado = await evento.userChoice;
+
+      if (resultado.outcome === "accepted") {
+        boton.style.display = "none";
+      }
+    } else {
+      mostrarAyuda();
+    }
+  });
+
+  document.getElementById("cosmosCerrar")
+    .addEventListener("click", function() {
+      modal.style.display = "none";
+    });
+
+  window.addEventListener("appinstalled", function() {
+    boton.style.display = "none";
+  });
+})();
+</script>
+
 <body>
 
 <header>
