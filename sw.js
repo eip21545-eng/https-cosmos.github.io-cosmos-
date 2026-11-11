@@ -1,5 +1,5 @@
 
-const CACHE = "cosmos-app-v1";
+const CACHE = "cosmos-app-v2";
 
 const ARCHIVOS = [
   "./",
