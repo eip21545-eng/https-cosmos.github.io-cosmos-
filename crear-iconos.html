@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Generador de iconos COSMOS</title>
+  <style>
+    body {
+      background: #0b1024;
+      color: white;
+      font-family: sans-serif;
+      text-align: center;
+      padding: 30px;
+    }
+    button {
+      display: block;
+      margin: 16px auto;
+      padding: 15px 25px;
+      border: none;
+      border-radius: 12px;
+      background: #c4b5fd;
+      color: #111328;
+      font-weight: bold;
+    }
+    canvas { max-width: 220px; width: 100%; }
+  </style>
+</head>
+<body>
+  <h1>🌌 Iconos COSMOS</h1>
+  <p>Descarga los dos tamaños y súbelos a GitHub.</p>
+
+  <canvas id="preview" width="512" height="512"></canvas>
+
+  <button onclick="descargar(192)">
+    Descargar icon-192.png
+  </button>
+  <button onclick="descargar(512)">
+    Descargar icon-512.png
+  </button>
+
+  <script>
+    function dibujar(tamano) {
+      const canvas = document.createElement("canvas");
+      canvas.width = tamano;
+      canvas.height = tamano;
+
+      const c = canvas.getContext("2d");
+      const s = tamano / 512;
+
+      c.scale(s, s);
+
+      c.fillStyle = "#0b1024";
+      c.fillRect(0, 0, 512, 512);
+
+      // Pequeñas estrellas.
+      c.fillStyle = "#ffffff";
+      [[95,110,4],[400,110,6],[125,395,4],
+       [416,382,5],[355,65,3]].forEach(p => {
+        c.beginPath();
+        c.arc(p[0],p[1],p[2],0,Math.PI*2);
+        c.fill();
+      });
+
+      // Planeta.
+      const grad = c.createLinearGradient(160,150,340,350);
+      grad.addColorStop(0,"#ecaaff");
+      grad.addColorStop(1,"#8178ff");
+
+      c.fillStyle = grad;
+      c.beginPath();
+      c.arc(256,256,88,0,Math.PI*2);
+      c.fill();
+
+      // Anillo.
+      c.strokeStyle = "#f5d5ff";
+      c.lineWidth = 16;
+      c.beginPath();
+      c.ellipse(256,270,170,52,-Math.PI/7,0,Math.PI*2);
+      c.stroke();
+
+      return canvas;
+    }
+
+    function descargar(tamano) {
+      const canvas = dibujar(tamano);
+      const enlace = document.createElement("a");
+      enlace.download = "icon-" + tamano + ".png";
+      enlace.href = canvas.toDataURL("image/png");
+      enlace.click();
+    }
+
+    const preview = dibujar(512);
+    document.getElementById("preview")
+      .getContext("2d").drawImage(preview,0,0);
+  </script>
+</body>
+</html>
